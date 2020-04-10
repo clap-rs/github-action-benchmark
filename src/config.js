@@ -177,6 +177,7 @@ async function configFromJobInput() {
     const githubToken = core.getInput('github-token') || undefined;
     const autoPush = getBoolInput('auto-push');
     const skipFetchGhPages = getBoolInput('skip-fetch-gh-pages');
+    const annotateAlways = getBoolInput('annotate-always');
     const commentAlways = getBoolInput('comment-always');
     const saveDataFile = getBoolInput('save-data-file');
     const commentOnAlert = getBoolInput('comment-on-alert');
@@ -216,6 +217,7 @@ async function configFromJobInput() {
         githubToken,
         autoPush,
         skipFetchGhPages,
+        annotateAlways,
         commentAlways,
         saveDataFile,
         commentOnAlert,
