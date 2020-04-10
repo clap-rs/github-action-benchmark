@@ -184,6 +184,7 @@ async function configFromJobInput() {
     const failOnAlert = getBoolInput('fail-on-alert');
     const alertCommentCcUsers = getCommaSeparatedInput('alert-comment-cc-users');
     let externalDataJsonPath = core.getInput('external-data-json-path');
+    const readCommitId = getBoolInput('read-commit-id');
     const maxItemsInChart = getUintInput('max-items-in-chart');
     let failThreshold = getPercentageInput('fail-threshold');
     validateToolType(tool);
@@ -223,6 +224,7 @@ async function configFromJobInput() {
         failOnAlert,
         alertCommentCcUsers,
         externalDataJsonPath,
+        readCommitId,
         maxItemsInChart,
         failThreshold,
     };

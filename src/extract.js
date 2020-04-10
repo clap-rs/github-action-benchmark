@@ -9,6 +9,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const github = __importStar(require("@actions/github"));
+const git = __importStar(require("./git"));
 function getHumanReadableUnitValue(seconds) {
     if (seconds < 1.0e-6) {
         return [seconds * 1e9, 'nsec'];
@@ -23,7 +24,15 @@ function getHumanReadableUnitValue(seconds) {
         return [seconds, 'sec'];
     }
 }
-function getCommit() {
+async function getCommit(config) {
+    if (config.readCommitId) {
+        const id = (await git.readCommitId()).trim();
+        const repo = github.context.repo;
+        return {
+            id,
+            url: `https://github.com/${repo.owner}/${repo.repo}/commits/${id}`,
+        };
+    }
     /* eslint-disable @typescript-eslint/camelcase */
     if (github.context.payload.head_commit) {
         return github.context.payload.head_commit;
@@ -278,7 +287,7 @@ async function extractResult(config) {
     if (benches.length === 0) {
         throw new Error(`No benchmark result was found in ${config.outputFilePath}. Benchmark output was '${output}'`);
     }
-    const commit = getCommit();
+    const commit = await getCommit(config);
     return {
         commit,
         date: Date.now(),
